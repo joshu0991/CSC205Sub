@@ -1,5 +1,5 @@
 package ieee.Conversion_Logic;
-
+import java.lang.Math;;
 public class SingleP_Conversion_Logic {
 
 	// converts a floating point decimal number to a bianary one
@@ -55,11 +55,30 @@ public class SingleP_Conversion_Logic {
 														// bias
 		String wholeNum = convertToWholeNum(mantissa, decEx + 1);
 		rString += wholeNum;
-		System.out.print("rString " + rString);
+		mantissa = mantissa.substring(decEx+1);
+		String decimal = convertToDec(mantissa);
+		decimal = decimal.substring(1);
+		rString += decimal;
+		System.out.print(rString);
 		return exponent;
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////	
+	
+	public String convertToDec(String man){
+		int len = man.length();
+		double tot = 0;
+		for(int i = 0; i < len; i++){
+			if(man.charAt(i)=='1'){
+			i = i + 1;
+			tot += Math.pow(2, -i);
+			}	
+		}
+		String rString = String.valueOf(tot);
+		return rString;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//pads the mantissa for binanry number
 	public String padBinNumMantissa(String binNum){
@@ -200,13 +219,12 @@ public class SingleP_Conversion_Logic {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public static void main(String[] args) {
-		String numbertoconvert = "-20.625256";
-		String binNumToConv = "11000001101001010000000010000110";
+		String numbertoconvert = "-20.6252";
+		String binNumToConv = "11000001101001010000000001101001";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		l.convertToSinglePrecision(numbertoconvert);
 		l.convertFromSinglePrecision(binNumToConv);
 	}
-
 }
 /*
  * to do list

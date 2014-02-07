@@ -59,8 +59,8 @@ public class SingleP_Conversion_Logic {
 		String decimal = convertToDec(mantissa);
 		decimal = decimal.substring(1);
 		rString += decimal;
-		System.out.print(rString);
-		return exponent;
+		//System.out.print(rString);
+		return rString;
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////	

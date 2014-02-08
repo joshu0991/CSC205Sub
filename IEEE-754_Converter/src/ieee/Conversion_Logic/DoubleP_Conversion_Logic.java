@@ -2,16 +2,17 @@ package ieee.Conversion_Logic;
 
 public class DoubleP_Conversion_Logic {
 	
+	SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
+	
 	public String convertToDoubleP(String decNum){
 		String binNum = "";
-		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		boolean sign = l.checkForSign(decNum);
 		
 		if(sign == true){
-			binNum += '1';
+			binNum += "1";
 			
 		}else{
-			binNum += '0';
+			binNum += "0";
 		}
 		
 		String[] splitNum = decNum.split("\\.");
@@ -29,20 +30,48 @@ public class DoubleP_Conversion_Logic {
 		String frontMantissa = binWholeNum.substring(1);
 
 		String binFractionNum = convertFraction(fraction, exponet);
-		
-		return binNum;
+		String mantissa = frontMantissa + binFractionNum;
+		String formattedNum = l.toString(binNum, exp, mantissa);
+		System.out.println(formattedNum);
+		return formattedNum;
 	}
 
 	
-	
-	public String convertFraction(String frac, int exp){
-		String fracString = ""; // fraction for 64 bits = 64 - 12 = 52 bits
-		
-		
-		return fracString;
+	public String convertFraction(String fraction, int exp) {
+		double fFrac = l.convertToDouble(fraction);
+		String rString = "";
+		double runningNum = fFrac * 2;
+		int counter = 1;
+		boolean cont = true;
+		while (counter <= 52 - exp && cont == true) {
+
+			// if the string is larger than 1 adds 1 to rval and minuses 1
+			if (runningNum >= 1) {
+				runningNum = runningNum - 1;
+				rString = rString + "1";
+				runningNum = runningNum * 2;
+				// case where string isnt bigger than 1000
+			} else if (runningNum < 1 && runningNum > 0) {
+				rString = rString + "0";
+				runningNum = runningNum * 2;
+				// if is equal to zero means stop and fill in zeros to end
+			} else if (runningNum == 0) {
+				cont = false;
+
+			}
+			counter++;
+		}
+		if (runningNum > 0.5) {
+			int term = rString.length();
+			rString = rString.substring(0, term - 1);
+			rString += "1";// round up last digit if last number is greater than
+							// .5
+		}
+		return rString;
 	}
-	
-	
+
+////////////////////////////////////////////////////////////////////////////////////////////////////	
+		
 	public String convertBiasToBin(int bias) {
 		String binExp = Integer.toBinaryString(bias);
 		String rString = "";

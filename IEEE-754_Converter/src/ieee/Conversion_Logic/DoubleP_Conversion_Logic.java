@@ -4,6 +4,8 @@ public class DoubleP_Conversion_Logic {
 	
 	//instance of single p to pull redundant methods
 	SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//converts double to a ieee 754 floating point bin num
 	public String convertToDoubleP(String decNum){
@@ -15,6 +17,15 @@ public class DoubleP_Conversion_Logic {
 			
 		}else{
 			binNum += "0";
+		}
+		if(!decNum.contains(".")){
+			decNum = decNum + ".0";
+		}
+		
+		if(l.checkIfZero(decNum) == true){
+			String zero = l.toString("0", "00000000000", "0000000000000000000000000000000000000000000000000000");
+			System.out.println(zero);
+			return zero;
 		}
 		
 		String[] splitNum = decNum.split("\\.");//splits string by dec point 
@@ -41,14 +52,35 @@ public class DoubleP_Conversion_Logic {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	public String addZerosToMantissa(String man) {
+		int len = man.length();
+		for (int counter = len; counter < 64; counter++) {
+			String r = man += "0";
+			man = r;
+			r = "";
+		}
+		return man;
+	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//converts from a double percicision bin num to decimal
 	public String convertFromDoubleP(String binNum){
 		String rString = "";
+		if(binNum.length() < 64){
+			binNum = addZerosToMantissa(binNum);
+		}
 		//chops up num accordingly
 		char sign = binNum.charAt(0);
 		String exponent = binNum.substring(1, 12);
 		String mantissa = binNum.substring(12, 64);
-
+		
+		if(l.checkIfZero(binNum) == true){
+			String r = "0.0";
+			System.out.print(r);
+			return r;
+		}
+		
 		//checks for negativitiy
 		if (sign == '1') {
 			rString = "-";
@@ -153,10 +185,15 @@ public class DoubleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
+		numbertoconvert = "0";
 		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
+		binNumToConv = "00000000000000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();
 		l.convertToDoubleP(numbertoconvert);
 		l.convertFromDoubleP(binNumToConv);
 		
 	}
 }
+/*
+ *fix infinity problem  
+ */

@@ -1,5 +1,5 @@
 package ieee.Conversion_Logic;
-import java.lang.Math;;
+import java.lang.Math;
 public class SingleP_Conversion_Logic {
 
 	// converts a floating point decimal number to a bianary one
@@ -11,6 +11,14 @@ public class SingleP_Conversion_Logic {
 			decimalNumber = decimalNumber.substring(1);
 		} else {
 			min = "0";//0 if positive
+		}
+		if(!decimalNumber.contains(".")){
+			decimalNumber = decimalNumber + ".0";
+		}
+		if(checkIfZero(decimalNumber) == true){
+			String zero = toString("0", "00000000", "00000000000000000000000");
+			//System.out.println(zero);
+			return zero;
 		}
 		String[] splitNum = decimalNumber.split("\\.");//splits number at decimal
 		int exponet = 0;
@@ -34,16 +42,39 @@ public class SingleP_Conversion_Logic {
 		return formattedNumber;
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	public boolean checkIfZero(String num){
+		int len = num.length();
+		for(int i = 0; i < len; i++){
+			if(num.charAt(i)=='0' || num.charAt(i) == '.'){
+				continue;
+			}else{
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
 /////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//Converts a 32 bit binary number to a decimal number
 	public String convertFromSinglePrecision(String binNum) {
+		if(binNum.length() < 32){
+			binNum = addZerosToMantissa(binNum);
+		}
 		String rString = "";
 		//gets numbers
 		char sign = binNum.charAt(0);
 		String exponent = binNum.substring(1, 9);
 		String mantissa = binNum.substring(9, 32);
 		
+		if(checkIfZero(binNum) == true){
+			String r = "0.0";
+			System.out.print(r);
+			return r;
+		}
 		//positive or neg. checker
 		if (sign == '1') {
 			rString = "-";
@@ -172,8 +203,10 @@ public class SingleP_Conversion_Logic {
 	//adds 0 to mantissa
 	public String addZerosToMantissa(String man) {
 		int len = man.length();
-		for (int counter = len; counter < 23; counter++) {
-			man += "0";
+		for (int counter = len; counter < 32; counter++) {
+			String r = man += "0";
+			man = r;
+			r = "";
 		}
 		return man;
 	}
@@ -230,15 +263,14 @@ public class SingleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
+		numbertoconvert = "0";
 		String binNumToConv = "11000001101001010000000001101001";
+		binNumToConv = "00000000000000000000000000000";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		l.convertToSinglePrecision(numbertoconvert);
 		l.convertFromSinglePrecision(binNumToConv);
 	}
 }
 /*
- * to do list
- * check for NaNs
- * check rubrinc for other special cases
+ *fix infinity problem  
  */
- 

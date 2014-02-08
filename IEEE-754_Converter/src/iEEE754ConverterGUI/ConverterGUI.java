@@ -1,6 +1,4 @@
 package iEEE754ConverterGUI;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,11 +10,10 @@ import javax.swing.*;
 
 
 public class ConverterGUI implements ActionListener {
-	private JFrame frame1;
-	private JFrame frame2;
-	
-	DoubleP_Conversion_Logic sixtyFour = new DoubleP_Conversion_Logic();
-	SingleP_Conversion_Logic thirtyTwo = new SingleP_Conversion_Logic();
+	public static JFrame frame1;
+	public static JFrame DBSP;
+	public static JTextField field2  = new JTextField();
+	public static JTextField field = new JTextField("0.0");
 	
 
 	public void main_gui(){
@@ -78,20 +75,30 @@ public class ConverterGUI implements ActionListener {
 		f.setVisible(false);
 	}
 	
-	public JFrame makeFrameTwo(){
-		JFrame f = new JFrame("IEEE Converter");
-		f.setSize(750, 600);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		f.setLocationRelativeTo(null);
-		f.setResizable(false);
+	public JFrame makeFrameDBSP(){
+		DBSP = new JFrame("IEEE Converter");
+		DBSP.setSize(750, 600);
+		DBSP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		DBSP.setVisible(true);
+		DBSP.setLocationRelativeTo(null);
+		DBSP.setResizable(false);
 		Font f1 = new Font(null, Font.BOLD, 22);
 		JPanel pan1 = new JPanel();
 		pan1.setLayout(new GridLayout(3, 1));
 		
+		field.setFont(f1);
+		field2.setFont(f1);
 		
+		JButton b1 = new JButton("Convert To Binary (Single Precision)");
+		b1.setFont(f1);
+		b1.addActionListener(this);
+		b1.setActionCommand("Convert To Binary (Single Precision)");
 		
-		return f;
+		pan1.add(field);
+		pan1.add(b1);
+		pan1.add(field2);
+		DBSP.add(pan1);
+		return DBSP;
 	}
 	
 	//run main application
@@ -102,22 +109,31 @@ public class ConverterGUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ConverterGUI gui = new ConverterGUI();
+		DoubleP_Conversion_Logic sixtyFour = new DoubleP_Conversion_Logic();
+		SingleP_Conversion_Logic thirtyTwo = new SingleP_Conversion_Logic();
+		//ConverterGUI gui = new ConverterGUI();
 	if(e.getActionCommand().equals("Decimal to Binary (Single Precision)")){
 		System.out.println(e.getActionCommand());
-		gui.destroyFrame(frame1);
+		destroyFrame(frame1);
+		makeFrameDBSP();
+		
 	}else if(e.getActionCommand().equals("Binary to Decimal (Single Precision)")){
 		System.out.println(e.getActionCommand());
-		gui.destroyFrame(frame1);
+		destroyFrame(frame1);
 	}else if(e.getActionCommand().equals("Decimal to Binary (Double Precision)")){
 		System.out.println(e.getActionCommand());
-		gui.destroyFrame(frame1);
+		destroyFrame(frame1);
 	}else if(e.getActionCommand().equals("Binary to Decimal (Double Precision)")){
 		System.out.println(e.getActionCommand());
-		gui.destroyFrame(frame1);
+		destroyFrame(frame1);
+	}else if(e.getActionCommand().equals("Convert To Binary (Single Precision)")){
+		System.out.println(e);
+		String t = field.getText();
+		String binNum = thirtyTwo.convertToSinglePrecision(t);
+		field2.setText(binNum);
+		
 	}
-		
-		
+	
 	}
 
 }

@@ -1,5 +1,5 @@
 package ieee.Conversion_Logic;
-//this is a test commit
+
 public class DoubleP_Conversion_Logic {
 	
 	//instance of single p to pull redundant methods
@@ -14,7 +14,7 @@ public class DoubleP_Conversion_Logic {
 		
 		if(sign == true){
 			binNum += "1";
-			
+			binNum = decNum.substring(1);
 		}else{
 			binNum += "0";
 		}
@@ -24,14 +24,13 @@ public class DoubleP_Conversion_Logic {
 		
 		if(l.checkIfZero(decNum) == true){
 			String zero = l.toString("0", "00000000000", "0000000000000000000000000000000000000000000000000000");
-			System.out.println(zero);
+			//System.out.println(zero);
 			return zero;
 		}
 		
 		String[] splitNum = decNum.split("\\.");//splits string by dec point 
 		int exponet = 0;
 		String wholeNum = splitNum[0];
-		wholeNum = wholeNum.substring(1);
 		String fraction = splitNum[1];
 		fraction = "0." + fraction;//need a 0 at front of decimal number
 		
@@ -46,7 +45,7 @@ public class DoubleP_Conversion_Logic {
 		String binFractionNum = convertFraction(fraction, exponet);//converts fraction based on size of exponent
 		String mantissa = frontMantissa + binFractionNum;//both parts of mantissa
 		String formattedNum = l.toString(binNum, exp, mantissa);//to a formated string
-		System.out.println(formattedNum);
+		//System.out.println(formattedNum);
 		return formattedNum;
 	}
 
@@ -185,11 +184,12 @@ public class DoubleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
-		numbertoconvert = "0";
+		numbertoconvert = "20.624";
 		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
 		binNumToConv = "00000000000000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();
-		l.convertToDoubleP(numbertoconvert);
+		String a = l.convertToDoubleP(numbertoconvert);
+		System.out.println(a);
 		l.convertFromDoubleP(binNumToConv);
 		
 	}

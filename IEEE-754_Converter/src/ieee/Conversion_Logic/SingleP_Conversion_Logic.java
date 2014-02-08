@@ -1,6 +1,6 @@
 package ieee.Conversion_Logic;
 import java.lang.Math;
-//this is a test commit
+
 public class SingleP_Conversion_Logic {
 
 	// converts a floating point decimal number to a bianary one
@@ -73,7 +73,7 @@ public class SingleP_Conversion_Logic {
 		
 		if(checkIfZero(binNum) == true){
 			String r = "0.0";
-			System.out.print(r);
+			//+System.out.print(r);
 			return r;
 		}
 		//positive or neg. checker
@@ -263,7 +263,7 @@ public class SingleP_Conversion_Logic {
 	
 	//test code
 	public static void main(String[] args) {
-		String numbertoconvert = "-20.6252";
+		String numbertoconvert = "20.624";
 		numbertoconvert = "0";
 		String binNumToConv = "11000001101001010000000001101001";
 		binNumToConv = "00000000000000000000000000000";

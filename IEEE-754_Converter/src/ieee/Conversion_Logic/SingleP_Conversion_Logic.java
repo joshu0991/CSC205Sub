@@ -5,28 +5,28 @@ public class SingleP_Conversion_Logic {
 	// converts a floating point decimal number to a bianary one
 	public String convertToSinglePrecision(String decimalNumber) {
 		String min = "";
-		boolean sign = checkForSign(decimalNumber);
+		boolean sign = checkForSign(decimalNumber);//checks for sign
 		if (sign == true) {
-			min = "1";
+			min = "1";//adds one if true
 			decimalNumber = decimalNumber.substring(1);
 		} else {
-			min = "0";
+			min = "0";//0 if positive
 		}
-		String[] splitNum = decimalNumber.split("\\.");
+		String[] splitNum = decimalNumber.split("\\.");//splits number at decimal
 		int exponet = 0;
 		String wholeNum = splitNum[0];
 		String fraction = splitNum[1];
 		fraction = "0." + fraction;
 		int intWholeNum = convertToInt(wholeNum);
 		String binWholeNum = Integer.toBinaryString(intWholeNum);
-		exponet = binWholeNum.length() - 1;
+		exponet = binWholeNum.length() - 1;//exponent minus one 
 		int biasNum = 127 + exponet; // number to store as 8 bit bianary expoent
-		String frontMantissa = binWholeNum.substring(1);
-		String binFractionNum = convertFraction(fraction, exponet);
+		String frontMantissa = binWholeNum.substring(1);//front of mantissa starts at one
+		String binFractionNum = convertFraction(fraction, exponet);//converts fraction to binFraction
 		String MantissaNoPadding = frontMantissa + binFractionNum;
-		String mantissa = addZerosToMantissa(MantissaNoPadding);
-		String exp = convertBiasToBin(biasNum);
-		if (mantissa.length() > 23) {
+		String mantissa = addZerosToMantissa(MantissaNoPadding);//pads with zeros
+		String exp = convertBiasToBin(biasNum);//converts bias to binary
+		if (mantissa.length() > 23) {// if mantissa is larger than 23 chop of end
 			mantissa = chopMantissa(mantissa);
 		}
 		String formattedNumber = toString(min, exp, mantissa);
@@ -39,24 +39,25 @@ public class SingleP_Conversion_Logic {
 	//Converts a 32 bit binary number to a decimal number
 	public String convertFromSinglePrecision(String binNum) {
 		String rString = "";
+		//gets numbers
 		char sign = binNum.charAt(0);
 		String exponent = binNum.substring(1, 9);
 		String mantissa = binNum.substring(9, 32);
-
+		
+		//positive or neg. checker
 		if (sign == '1') {
 			rString = "-";
 		}
-
+		
+		//if digit one is a zerp add a one
 		if (mantissa.charAt(0) == '0') {
 			mantissa = "1" + mantissa;
 		}
-		
-		int decEx = convertBinExpoToDec(exponent) - 127;// take expoenent minus
-														// bias
-		String wholeNum = convertToWholeNum(mantissa, decEx + 1);
+		int decEx = convertBinExpoToDec(exponent) - 127;// take expoenent minus bias
+		String wholeNum = convertToWholeNum(mantissa, decEx + 1);//converts to a whole num from bin num
 		rString += wholeNum;
-		mantissa = mantissa.substring(decEx+1);
-		String decimal = convertToDec(mantissa);
+		mantissa = mantissa.substring(decEx+1);//gets mantissa
+		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);
 		rString += decimal;
 		//System.out.print(rString);
@@ -65,6 +66,7 @@ public class SingleP_Conversion_Logic {
 	
 ///////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//converts decimal bin to whole num
 	public String convertToDec(String man){
 		int len = man.length();
 		double tot = 0;
@@ -93,6 +95,7 @@ public class SingleP_Conversion_Logic {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//converts mantissa to whole 
 	public String convertToWholeNum(String mantissa, int exponent) {
 		String wholeNum = mantissa.substring(0, exponent);
 		int rInt = Integer.parseInt(wholeNum, 2);
@@ -102,6 +105,7 @@ public class SingleP_Conversion_Logic {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//converts bin expoenent to a decimal
 	public int convertBinExpoToDec(String binEx) {
 		int rInt = Integer.parseInt(binEx, 2);
 		return rInt;
@@ -116,6 +120,7 @@ public class SingleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//chops end of a string
 	public String chopMantissa(String mantissa) {
 		String rString = "";
 		for (int counter = 0; counter < 23; counter++) {
@@ -126,10 +131,11 @@ public class SingleP_Conversion_Logic {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//converts bias to a bin num
 	public String convertBiasToBin(int bias) {
 		String binExp = Integer.toBinaryString(bias);
 		String rString = "";
-		if (binExp.length() < 8) {
+		if (binExp.length() < 8) {//pads the number if too short
 			for (int counter = binExp.length(); counter < 8; counter++) {
 				rString += "0" + binExp;
 				binExp = rString;
@@ -163,6 +169,7 @@ public class SingleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//adds 0 to mantissa
 	public String addZerosToMantissa(String man) {
 		int len = man.length();
 		for (int counter = len; counter < 23; counter++) {
@@ -173,6 +180,7 @@ public class SingleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//converts fractional part
 	public String convertFraction(String fraction, int exp) {
 		double fFrac = convertToDouble(fraction);
 		String rString = "";
@@ -186,7 +194,7 @@ public class SingleP_Conversion_Logic {
 				runningNum = runningNum - 1;
 				rString = rString + "1";
 				runningNum = runningNum * 2;
-				// case where string isnt bigger than 1000
+				// case where string isnt bigger than 1
 			} else if (runningNum < 1 && runningNum > 0) {
 				rString = rString + "0";
 				runningNum = runningNum * 2;
@@ -208,6 +216,7 @@ public class SingleP_Conversion_Logic {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//checks string for -
 	public boolean checkForSign(String num) {
 		if (num.charAt(0) == '-') {
 			return true;
@@ -218,6 +227,7 @@ public class SingleP_Conversion_Logic {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
 		String binNumToConv = "11000001101001010000000001101001";

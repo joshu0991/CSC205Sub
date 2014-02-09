@@ -76,6 +76,11 @@ public class ConverterGUI implements ActionListener {
 	}
 	
 	public JFrame makeFrameDBSP(){
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("New Conversion");
+		menuBar.add(menu);
+		JMenuItem menuItem = new JMenuItem("Open Conversion Menu");
+		menu.add(menuItem);
 		DBSP = new JFrame("IEEE Converter");
 		DBSP.setSize(750, 600);
 		DBSP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,6 +99,7 @@ public class ConverterGUI implements ActionListener {
 		b1.addActionListener(this);
 		b1.setActionCommand("Convert To Binary (Single Precision)");
 		
+		DBSP.setJMenuBar(menuBar);
 		pan1.add(field);
 		pan1.add(b1);
 		pan1.add(field2);

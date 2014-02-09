@@ -17,20 +17,14 @@ public class ConverterGUI implements ActionListener {
 	public static JFrame DBSP;
 	public static JFrame BDSP;
 	public static JFrame DBDP;
-	
+	public static JFrame BDDP;
 	public static JFrame currentFrame;
 	public static JTextField field2  = new JTextField();
 	public static JTextField field = new JTextField("0.0");
 	public static JTextField binField32 = new JTextField("00000000000000000000000000000000");
+	public static JTextField binField64 = new JTextField("0000000000000000000000000000000000000000000000000000000000000000");
 	public static JTextField currentField1;
 	public static JTextField currentField2;
-	
-	
-	public void main_gui(){
-		
-		makeInitialJFrame();
-		
-	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
@@ -89,7 +83,7 @@ public class ConverterGUI implements ActionListener {
 		f.setVisible(false);
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public JFrame makeFrameDBSP(){
 		JMenuBar menuBar = new JMenuBar();
@@ -132,7 +126,7 @@ public class ConverterGUI implements ActionListener {
 	//run main application
 	public static void main(String[] args) {
 		ConverterGUI g = new ConverterGUI();
-		g.main_gui();
+		g.makeInitialJFrame();
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -212,6 +206,46 @@ public class ConverterGUI implements ActionListener {
 		return DBDP;
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public JFrame makeFrameBDDP(){
+		//Decimal to Binary (Double Precision)
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("Conversion Menu");
+		menuBar.add(menu);
+		JMenuItem menuItem = new JMenuItem("Start New Conversion");
+		menu.add(menuItem);
+		menuItem.addActionListener(this);
+		menuItem.setActionCommand("New Conversion");
+		
+		BDDP = new JFrame("IEEE Converter");
+		BDDP.setSize(750, 600);
+		BDDP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		BDDP.setVisible(true);
+		BDDP.setLocationRelativeTo(null);
+		BDDP.setResizable(false);
+		Font f1 = new Font(null, Font.BOLD, 19);
+		Font f2 = new Font(null, Font.BOLD, 19);
+		JPanel pan1 = new JPanel();
+		pan1.setLayout(new GridLayout(3, 1));
+		
+		binField64.setFont(f1);
+		field2.setFont(f2);
+		
+		JButton b1 = new JButton("Convert To Decimal (Double Precision)");
+		b1.setFont(f1);
+		b1.addActionListener(this);
+		b1.setActionCommand("Convert To Decimal Double");
+		
+		BDDP.setJMenuBar(menuBar);
+		pan1.add(binField64);
+		pan1.add(b1);
+		pan1.add(field2);
+		BDDP.add(pan1);
+		return BDDP;
+	}
+	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	@Override
@@ -243,6 +277,10 @@ public class ConverterGUI implements ActionListener {
 	}else if(e.getActionCommand().equals("Binary to Decimal (Double Precision)")){
 		System.out.println(e.getActionCommand());
 		destroyFrame(frame1);
+		currentFrame = makeFrameBDDP();
+		currentField1 = binField64;
+		currentField2 = field2;
+		
 	}else if(e.getActionCommand().equals("Convert To Binary (Single Precision)")){
 		System.out.println(e);
 		String t = field.getText();
@@ -267,6 +305,10 @@ public class ConverterGUI implements ActionListener {
 		String binNum = sixtyFour.convertToDoubleP(t);
 		field2.setText(binNum);
 		
+	}else if(e.getActionCommand().equals("Convert To Decimal Double")){
+		String t = binField64.getText();
+		String binNum = sixtyFour.convertFromDoubleP(t);
+		field2.setText(binNum);
 	}
 	
 	}

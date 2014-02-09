@@ -106,8 +106,11 @@ public class SingleP_Conversion_Logic {
 		}else{
 		wholeNum = convertToWholeNum(mantissa, decEx + 1);//converts to a whole num from bin num
 		}
+		if(wholeNum.equals("1")){
+		mantissa = mantissa.substring(1);
+		}
 		rString += wholeNum;
-		mantissa = mantissa.substring(0, decEx+1);//gets mantissa
+		mantissa = mantissa.substring(0, Math.abs(decEx)+1);//gets mantissa
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);
 		rString += decimal;
@@ -309,13 +312,13 @@ public class SingleP_Conversion_Logic {
 	
 	//test code
 	public static void main(String[] args) {
-		String numbertoconvert = "20.624";
-		numbertoconvert = "-3.75";
-		String binNumToConv = "11000001101001010000000001101001";
-		binNumToConv = "11000000011100000000000000000000";
+		String numbertoconvert1 = "20.6252";
+		String numbertoconvert = "-3.75";
+		String binNumToConv1 = "01000001101001010000000001101001";
+		String binNumToConv = "11000000011100000000000000000000";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
-		l.convertToSinglePrecision(numbertoconvert);
-		l.convertFromSinglePrecision(binNumToConv);
+		l.convertToSinglePrecision(numbertoconvert1);
+		l.convertFromSinglePrecision(binNumToConv1);
 	}
 }
 /*

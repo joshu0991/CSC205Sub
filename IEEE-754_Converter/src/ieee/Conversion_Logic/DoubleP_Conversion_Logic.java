@@ -124,7 +124,10 @@ public class DoubleP_Conversion_Logic {
 		wholeNum = l.convertToWholeNum(mantissa, decEx + 1);//converts whole num part
 		}
 		rString += wholeNum;
-		mantissa = mantissa.substring(0, decEx+1);//whole num out of decimal
+		if(wholeNum.equals("1")){
+		mantissa = mantissa.substring(1);
+		}
+		mantissa = mantissa.substring(0, Math.abs(decEx)+1);//whole num out of decimal
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);//creates decimal string
 		rString += decimal;

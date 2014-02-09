@@ -44,6 +44,9 @@ public class DoubleP_Conversion_Logic {
 
 		String binFractionNum = convertFraction(fraction, exponet);//converts fraction based on size of exponent
 		String mantissa = frontMantissa + binFractionNum;//both parts of mantissa
+		if(mantissa.length()<52){
+			mantissa = padBinNumMantissa(mantissa);
+		}
 		String formattedNum = l.toString(binNum, exp, mantissa);//to a formated string
 		//System.out.println(formattedNum);
 		return formattedNum;
@@ -156,6 +159,19 @@ public class DoubleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////	
 		
+	public String padBinNumMantissa(String binNum){
+		int len = binNum.length();
+		String rString = "";
+		for(int i = len; i <52; i++){
+			rString = binNum + "0";
+			binNum = rString;
+			rString = "";
+		}
+		return binNum;
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	//converts the bias to a bin number
 	public String convertBiasToBin(int bias) {
 		String binExp = Integer.toBinaryString(bias);
@@ -184,13 +200,13 @@ public class DoubleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
-		numbertoconvert = "20.624";
-		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
-		binNumToConv = "00000000000000000000000000000000000000000000000000000000000";
+		numbertoconvert = "20.625";
+		//String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
+		//binNumToConv = "00000000000000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();
 		String a = l.convertToDoubleP(numbertoconvert);
 		System.out.println(a);
-		l.convertFromDoubleP(binNumToConv);
+		//l.convertFromDoubleP(binNumToConv);
 		
 	}
 }

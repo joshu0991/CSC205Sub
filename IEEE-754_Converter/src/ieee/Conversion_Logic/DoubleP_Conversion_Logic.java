@@ -10,6 +10,9 @@ public class DoubleP_Conversion_Logic {
 	//converts double to a ieee 754 floating point bin num
 	public String convertToDoubleP(String decNum){
 		String binNum = "";
+		if(l.checkInfinityForDec(decNum)){	
+			return("0/1| 11111111111|0000000000000000000000000000000000000000000000000000");
+		}
 		boolean sign = l.checkForSign(decNum);//checks for sign
 		
 		if(sign == true){
@@ -36,7 +39,12 @@ public class DoubleP_Conversion_Logic {
 		
 		int intWholeNum = convertToInt(wholeNum);//converts number to integer
 		String binWholeNum = Integer.toBinaryString(intWholeNum);
-		exponet = binWholeNum.length() - 1;//exponent is equal to length -1
+		if(binWholeNum.length() >1 && wholeNum.charAt(0)!='0'){
+			exponet = binWholeNum.length() - 1;//exponent minus one 
+			}
+		if(binWholeNum.length() == 1 && wholeNum.equals("0")){
+				exponet = -1;
+			}
 		int biasNum = 1023 + exponet;//bias for 64 bit is +1023
 		String exp = convertBiasToBin(biasNum);
 		
@@ -66,11 +74,27 @@ public class DoubleP_Conversion_Logic {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	public boolean checkInfinityBin(String binNum){
+		binNum = binNum.substring(1);
+		if(binNum.equals("111111111110000000000000000000000000000000000000000000000000000")){
+			          //111111111110000000000000000000000000000000000000000000000000000
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	//converts from a double percicision bin num to decimal
 	public String convertFromDoubleP(String binNum){
 		String rString = "";
 		if(binNum.length() < 64){
 			binNum = addZerosToMantissa(binNum);
+		}
+		if(checkInfinityBin(binNum)){
+			return("+/-Infinity");
 		}
 		//chops up num accordingly
 		char sign = binNum.charAt(0);
@@ -79,7 +103,7 @@ public class DoubleP_Conversion_Logic {
 		
 		if(l.checkIfZero(binNum) == true){
 			String r = "0.0";
-			System.out.print(r);
+			System.out.print(r);					
 			return r;
 		}
 		
@@ -92,10 +116,15 @@ public class DoubleP_Conversion_Logic {
 		if (mantissa.charAt(0) == '0') {
 			mantissa = "1" + mantissa;
 		}
+		String wholeNum;
 		int decEx = l.convertBinExpoToDec(exponent) - 1023;//subtracts bias 
-		String wholeNum = l.convertToWholeNum(mantissa, decEx + 1);//converts whole num part
+		if(decEx < 0){
+			wholeNum = "0";
+		}else{
+		wholeNum = l.convertToWholeNum(mantissa, decEx + 1);//converts whole num part
+		}
 		rString += wholeNum;
-		mantissa = mantissa.substring(decEx+1);//whole num out of decimal
+		mantissa = mantissa.substring(0, decEx+1);//whole num out of decimal
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);//creates decimal string
 		rString += decimal;
@@ -114,6 +143,7 @@ public class DoubleP_Conversion_Logic {
 			if(man.charAt(i)=='1'){//if number is a 1 multiply by two to that power and adds it to total
 			i = i + 1;
 			tot += Math.pow(2, -i);//2^-i
+			i = i - 1;
 			}	
 		}
 		String rString = String.valueOf(tot);
@@ -154,6 +184,10 @@ public class DoubleP_Conversion_Logic {
 			rString += "1";// round up last digit if last number is greater than
 							// .5
 		}
+		if(exp == -1){
+			rString = rString.substring(1) + "0";
+		}
+		
 		return rString;
 	}
 
@@ -200,13 +234,13 @@ public class DoubleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
-		numbertoconvert = "20.625";
-		//String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
-		//binNumToConv = "00000000000000000000000000000000000000000000000000000000000";
+		numbertoconvert = "3.75";
+		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
+		binNumToConv = "0100000000001110000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();
 		String a = l.convertToDoubleP(numbertoconvert);
 		System.out.println(a);
-		//l.convertFromDoubleP(binNumToConv);
+		l.convertFromDoubleP(binNumToConv);
 		
 	}
 }

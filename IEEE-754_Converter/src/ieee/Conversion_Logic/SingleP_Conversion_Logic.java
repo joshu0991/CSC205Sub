@@ -5,6 +5,10 @@ public class SingleP_Conversion_Logic {
 
 	// converts a floating point decimal number to a bianary one
 	public String convertToSinglePrecision(String decimalNumber) {
+		
+		if(checkInfinityForDec(decimalNumber)){
+			return("0/1 | 11111111 | 00000000000000000000000");
+		}
 		String min = "";
 		boolean sign = checkForSign(decimalNumber);//checks for sign
 		if (sign == true) {
@@ -28,7 +32,12 @@ public class SingleP_Conversion_Logic {
 		fraction = "0." + fraction;
 		int intWholeNum = convertToInt(wholeNum);
 		String binWholeNum = Integer.toBinaryString(intWholeNum);
+		if(binWholeNum.length() >1 && wholeNum.charAt(0)!='0'){
 		exponet = binWholeNum.length() - 1;//exponent minus one 
+		}
+		if(binWholeNum.length() == 1 && wholeNum.equals("0")){
+			exponet = -1;
+		}
 		int biasNum = 127 + exponet; // number to store as 8 bit bianary expoent
 		String frontMantissa = binWholeNum.substring(1);//front of mantissa starts at one
 		String binFractionNum = convertFraction(fraction, exponet);//converts fraction to binFraction
@@ -66,6 +75,11 @@ public class SingleP_Conversion_Logic {
 			binNum = addZerosToMantissa(binNum);
 		}
 		String rString = "";
+		
+		if(checkInfinityBin(binNum)){
+			return "+-Infinity";
+		}
+		
 		//gets numbers
 		char sign = binNum.charAt(0);
 		String exponent = binNum.substring(1, 9);
@@ -81,18 +95,23 @@ public class SingleP_Conversion_Logic {
 			rString = "-";
 		}
 		
-		//if digit one is a zerp add a one
+		//if digit one is a zero add a one
 		if (mantissa.charAt(0) == '0') {
 			mantissa = "1" + mantissa;
 		}
+		String wholeNum;
 		int decEx = convertBinExpoToDec(exponent) - 127;// take expoenent minus bias
-		String wholeNum = convertToWholeNum(mantissa, decEx + 1);//converts to a whole num from bin num
+		if(decEx < 0){
+			wholeNum = "0";
+		}else{
+		wholeNum = convertToWholeNum(mantissa, decEx + 1);//converts to a whole num from bin num
+		}
 		rString += wholeNum;
-		mantissa = mantissa.substring(decEx+1);//gets mantissa
+		mantissa = mantissa.substring(0, decEx+1);//gets mantissa
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);
 		rString += decimal;
-		//System.out.print(rString);
+		System.out.print(rString);
 		return rString;
 	}
 	
@@ -106,6 +125,7 @@ public class SingleP_Conversion_Logic {
 			if(man.charAt(i)=='1'){
 			i = i + 1;
 			tot += Math.pow(2, -i);
+			i = i - 1;
 			}	
 		}
 		String rString = String.valueOf(tot);
@@ -161,6 +181,18 @@ public class SingleP_Conversion_Logic {
 		return rString;
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public boolean checkInfinityBin(String binNum){
+		binNum = binNum.substring(1);
+		if(binNum.equals("1111111100000000000000000000000")){
+			 return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//converts bias to a bin num
@@ -214,6 +246,17 @@ public class SingleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	public boolean checkInfinityForDec(String infinity){
+		infinity = infinity.toLowerCase();
+		if(infinity.equals("infinity")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//converts fractional part
 	public String convertFraction(String fraction, int exp) {
 		double fFrac = convertToDouble(fraction);
@@ -245,6 +288,9 @@ public class SingleP_Conversion_Logic {
 			rString += "1";// round up last digit if last number is greater than
 							// .5
 		}
+		if(exp == -1){
+			rString = rString.substring(1) + "0";
+		}
 		return rString;
 	}
 
@@ -264,9 +310,9 @@ public class SingleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "20.624";
-		numbertoconvert = "0";
+		numbertoconvert = "-3.75";
 		String binNumToConv = "11000001101001010000000001101001";
-		binNumToConv = "00000000000000000000000000000";
+		binNumToConv = "11000000011100000000000000000000";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		l.convertToSinglePrecision(numbertoconvert);
 		l.convertFromSinglePrecision(binNumToConv);

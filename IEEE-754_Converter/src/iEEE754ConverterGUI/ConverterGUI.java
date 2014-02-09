@@ -224,8 +224,8 @@ public class ConverterGUI implements ActionListener {
 		BDDP.setVisible(true);
 		BDDP.setLocationRelativeTo(null);
 		BDDP.setResizable(false);
-		Font f1 = new Font(null, Font.BOLD, 19);
-		Font f2 = new Font(null, Font.BOLD, 19);
+		Font f1 = new Font(null, Font.BOLD, 18);
+		Font f2 = new Font(null, Font.BOLD, 18);
 		JPanel pan1 = new JPanel();
 		pan1.setLayout(new GridLayout(3, 1));
 		
@@ -296,8 +296,12 @@ public class ConverterGUI implements ActionListener {
 	}else if(e.getActionCommand().equals("Convert To Decimal")){
 		System.out.println(e);
 		String t = binField32.getText();
+		if(t.length()<=32){
 		String decNum = thirtyTwo.convertFromSinglePrecision(t);
 		field2.setText(decNum);
+		}else{
+			JOptionPane.showMessageDialog(null, "You have entered more than 32 numbers");
+		}
 		
 	}else if(e.getActionCommand().equals("Convert To Binary Double")){
 		//System.out.println(e);
@@ -307,8 +311,12 @@ public class ConverterGUI implements ActionListener {
 		
 	}else if(e.getActionCommand().equals("Convert To Decimal Double")){
 		String t = binField64.getText();
+		if(t.length() <= 64){
 		String binNum = sixtyFour.convertFromDoubleP(t);
 		field2.setText(binNum);
+		}else{
+			JOptionPane.showMessageDialog(null, "You have entered more than 64 numbers");
+		}
 	}
 	
 	}

@@ -248,5 +248,5 @@ public class DoubleP_Conversion_Logic {
 	}
 }
 /*
- *fix infinity problem  
+ *figure out nan 
  */

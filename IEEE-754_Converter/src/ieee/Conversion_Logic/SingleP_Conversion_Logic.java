@@ -6,6 +6,7 @@ public class SingleP_Conversion_Logic {
 	// converts a floating point decimal number to a bianary one
 	public String convertToSinglePrecision(String decimalNumber) {
 		
+		
 		if(checkInfinityForDec(decimalNumber)){
 			return("0/1 | 11111111 | 00000000000000000000000");
 		}
@@ -54,6 +55,32 @@ public class SingleP_Conversion_Logic {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	
+	public boolean checkForNan(String num){
+		String expon = num.substring(1, 9);
+		String mant = num.substring(9);
+		boolean rVal = false;
+		for(int i = 0; i < expon.length(); i++){
+			if(expon.charAt(i) == '1'){
+				rVal = false;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		for(int j = 0; j < mant.length(); j++){
+			if(mant.charAt(j)=='1'){
+				rVal = true;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		return rVal;
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	public boolean checkIfZero(String num){
 		int len = num.length();
 		for(int i = 0; i < len; i++){
@@ -67,10 +94,15 @@ public class SingleP_Conversion_Logic {
 		return true;
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 /////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//Converts a 32 bit binary number to a decimal number
 	public String convertFromSinglePrecision(String binNum) {
+		if(checkForNan(binNum) == true){
+			return "NaN";
+		}
 		if(binNum.length() < 32){
 			binNum = addZerosToMantissa(binNum);
 		}
@@ -315,10 +347,11 @@ public class SingleP_Conversion_Logic {
 		String numbertoconvert1 = "20.6252";
 		String numbertoconvert = "-3.75";
 		String binNumToConv1 = "01000001101001010000000001101001";
-		String binNumToConv = "11000000011100000000000000000000";
+		String binNumToConv = "000000000000100000";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		l.convertToSinglePrecision(numbertoconvert1);
-		l.convertFromSinglePrecision(binNumToConv1);
+		String a = l.convertFromSinglePrecision(binNumToConv);
+		System.out.println(a);
 	}
 }
 /*

@@ -254,35 +254,35 @@ public class ConverterGUI implements ActionListener {
 		SingleP_Conversion_Logic thirtyTwo = new SingleP_Conversion_Logic();
 		
 	if(e.getActionCommand().equals("Decimal to Binary (Single Precision)")){
-		System.out.println(e.getActionCommand());
+		//System.out.println(e.getActionCommand());
 		destroyFrame(frame1);
 		currentFrame = makeFrameDBSP();
 		currentField1 = field;
 		currentField2 = field2;
 		
 	}else if(e.getActionCommand().equals("Binary to Decimal (Single Precision)")){
-		System.out.println(e.getActionCommand());
+		//System.out.println(e.getActionCommand());
 		destroyFrame(frame1);
 		currentFrame = makeFrameBDSP();
 		currentField1 = binField32;
 		currentField2 = field2;
 		
 	}else if(e.getActionCommand().equals("Decimal to Binary (Double Precision)")){
-		System.out.println(e.getActionCommand());
+		//System.out.println(e.getActionCommand());
 		destroyFrame(frame1);
 		currentFrame = makeFrameDBDP();
 		currentField1 = field;
 		currentField2 = field2;
 		
 	}else if(e.getActionCommand().equals("Binary to Decimal (Double Precision)")){
-		System.out.println(e.getActionCommand());
+		//System.out.println(e.getActionCommand());
 		destroyFrame(frame1);
 		currentFrame = makeFrameBDDP();
 		currentField1 = binField64;
 		currentField2 = field2;
 		
 	}else if(e.getActionCommand().equals("Convert To Binary (Single Precision)")){
-		System.out.println(e);
+		//System.out.println(e);
 		String t = field.getText();
 		String binNum = thirtyTwo.convertToSinglePrecision(t);
 		field2.setText(binNum);
@@ -294,7 +294,7 @@ public class ConverterGUI implements ActionListener {
 		currentField2.setText("");
 		
 	}else if(e.getActionCommand().equals("Convert To Decimal")){
-		System.out.println(e);
+		//System.out.println(e);
 		String t = binField32.getText();
 		if(t.length()<=32){
 		String decNum = thirtyTwo.convertFromSinglePrecision(t);

@@ -17,7 +17,7 @@ public class DoubleP_Conversion_Logic {
 		
 		if(sign == true){
 			binNum += "1";
-			binNum = decNum.substring(1);
+			decNum = decNum.substring(1);
 		}else{
 			binNum += "0";
 		}
@@ -237,7 +237,7 @@ public class DoubleP_Conversion_Logic {
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
-		numbertoconvert = "3.75";
+		numbertoconvert = "-3.75";
 		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
 		binNumToConv = "0100000000001110000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();

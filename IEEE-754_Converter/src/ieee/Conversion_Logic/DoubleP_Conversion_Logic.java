@@ -110,6 +110,31 @@ public class DoubleP_Conversion_Logic {
 		
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public boolean checkDenormNum(String num){
+		String expon = num.substring(1, 11);
+		String mant = num.substring(11);
+		boolean rVal = false;
+		for(int i = 0; i < expon.length(); i++){
+			if(expon.charAt(i) == '0'){
+				rVal = false;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		for(int j = 0; j < mant.length(); j++){
+			if(mant.charAt(j)=='1'){
+				rVal = true;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		return rVal;
+	}
+	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//converts from a double percicision bin num to decimal
@@ -118,7 +143,9 @@ public class DoubleP_Conversion_Logic {
 		if(checkForNan(binNum) == true){
 			return "NaN";
 		}
-		
+		if(checkDenormNum(binNum) == true){
+			return "Denormalized Number";
+		}
 		if(binNum.length() < 64){
 			binNum = addZerosToMantissa(binNum);
 		}
@@ -262,13 +289,13 @@ public class DoubleP_Conversion_Logic {
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
+/*	
 	//test code
 	public static void main(String[] args) {
 		String numbertoconvert = "-20.6252";
 		numbertoconvert = "-3.75";
 		String binNumToConv = "1100000000110100101000000000110100011011011100010111010110001110";
-		binNumToConv = "0000000000001110000000000000000000000000000000000000000000000000";
+		binNumToConv = "0111111111111110000000000000000000000000000000000000000000000000";
 		DoubleP_Conversion_Logic l = new DoubleP_Conversion_Logic();
 		String a = l.convertToDoubleP(numbertoconvert);
 		System.out.println(a);
@@ -276,7 +303,5 @@ public class DoubleP_Conversion_Logic {
 		System.out.println(m);
 		
 	}
+	*/
 }
-/*
- *figure out nan 
- */

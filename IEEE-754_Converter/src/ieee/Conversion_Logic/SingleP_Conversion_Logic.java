@@ -96,12 +96,38 @@ public class SingleP_Conversion_Logic {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	public boolean checkDenormNum(String num){
+		String expon = num.substring(1, 9);
+		String mant = num.substring(9);
+		boolean rVal = false;
+		for(int i = 0; i < expon.length(); i++){
+			if(expon.charAt(i) == '0'){
+				rVal = false;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		for(int j = 0; j < mant.length(); j++){
+			if(mant.charAt(j)=='1'){
+				rVal = true;
+				return rVal;
+			}else{
+				continue;
+			}
+		}
+		return rVal;
+	}
+	
 /////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//Converts a 32 bit binary number to a decimal number
 	public String convertFromSinglePrecision(String binNum) {
 		if(checkForNan(binNum) == true){
 			return "NaN";
+		}
+		if(checkDenormNum(binNum) == true){
+			return "Denormalized Number";
 		}
 		if(binNum.length() < 32){
 			binNum = addZerosToMantissa(binNum);
@@ -343,17 +369,15 @@ public class SingleP_Conversion_Logic {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	//test code
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String numbertoconvert1 = "20.6252";
 		String numbertoconvert = "-3.75";
 		String binNumToConv1 = "01000001101001010000000001101001";
-		String binNumToConv = "000000000000100000";
+		String binNumToConv = "011111111000100000";
 		SingleP_Conversion_Logic l = new SingleP_Conversion_Logic();
 		l.convertToSinglePrecision(numbertoconvert1);
 		String a = l.convertFromSinglePrecision(binNumToConv);
 		System.out.println(a);
 	}
+	*/
 }
-/*
- *fix infinity problem  
- */

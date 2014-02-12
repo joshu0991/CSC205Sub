@@ -49,7 +49,7 @@ public class SingleP_Conversion_Logic {
 			mantissa = chopMantissa(mantissa);
 		}
 		String formattedNumber = toString(min, exp, mantissa);
-		System.out.println(formattedNumber);
+		//System.out.println(formattedNumber);
 		return formattedNumber;
 	}
 
@@ -172,7 +172,7 @@ public class SingleP_Conversion_Logic {
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);
 		rString += decimal;
-		System.out.print(rString);
+		//System.out.print(rString);
 		return rString;
 	}
 	
@@ -202,7 +202,7 @@ public class SingleP_Conversion_Logic {
 		for(int i = len; i <=23; i++){
 			rString = binNum + "0";
 		}
-		System.out.print("bin Num " + rString);
+		//System.out.print("bin Num " + rString);
 		return rString;
 	}
 	

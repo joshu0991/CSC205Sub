@@ -159,7 +159,7 @@ public class DoubleP_Conversion_Logic {
 		
 		if(l.checkIfZero(binNum) == true){
 			String r = "0.0";
-			System.out.print(r);					
+			//System.out.print(r);					
 			return r;
 		}
 		
@@ -187,7 +187,7 @@ public class DoubleP_Conversion_Logic {
 		String decimal = convertToDec(mantissa);//converts decimal
 		decimal = decimal.substring(1);//creates decimal string
 		rString += decimal;
-		System.out.println(rString);
+		//System.out.println(rString);
 		return rString;
 		
 	}

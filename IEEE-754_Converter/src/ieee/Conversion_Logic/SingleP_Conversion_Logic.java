@@ -124,10 +124,10 @@ public class SingleP_Conversion_Logic {
 	//Converts a 32 bit binary number to a decimal number
 	public String convertFromSinglePrecision(String binNum) {
 		if(checkForNan(binNum) == true){
-			return "NaN";
+			return "Denormalized Number";
 		}
 		if(checkDenormNum(binNum) == true){
-			return "Denormalized Number";
+			return "NaN";
 		}
 		if(binNum.length() < 32){
 			binNum = addZerosToMantissa(binNum);

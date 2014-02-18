@@ -141,10 +141,10 @@ public class DoubleP_Conversion_Logic {
 	public String convertFromDoubleP(String binNum){
 		String rString = "";
 		if(checkForNan(binNum) == true){
-			return "NaN";
+			return "Denormalized Number";
 		}
 		if(checkDenormNum(binNum) == true){
-			return "Denormalized Number";
+			return "NaN";
 		}
 		if(binNum.length() < 64){
 			binNum = addZerosToMantissa(binNum);
